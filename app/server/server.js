@@ -20,9 +20,7 @@ io.on('connection', socket => {
     const id = socket.handshake.query.id;
     socket.join(id);
 
-    socket.on("connect", () => {
-      console.log("User Connected", socket.id);
-    });
+    console.log("User Connected", socket.id);
 
     socket.on("send-message", ({ recipients, text }) => {
       recipients.forEach(recipient => {
