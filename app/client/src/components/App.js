@@ -8,16 +8,15 @@ import { UserInfoProvider } from "../contexts/UserInfoProvider";
 
 function App() {
   const home = (
-    <UserInfoProvider>
-      <SocketProvider>
+    <SocketProvider>
+      <UserInfoProvider>
         <ContactsProvider>
-            <ConversationsProvider>
-              <Home />
+          <ConversationsProvider>
+            <Home />
           </ConversationsProvider>
         </ContactsProvider>
-      </SocketProvider>
-    </UserInfoProvider>
-    
+      </UserInfoProvider>
+    </SocketProvider>
   );
 
 

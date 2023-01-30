@@ -13,7 +13,7 @@ export default function Conversations() {
                 <ListGroup variant='flush'>
                     {
                         conversations.map((conversation, index) => {
-                            const isGroup = conversation.recipients.length > 1;
+                            const isGroup = conversation && conversation.hasOwnProperty('groupName') && conversation.groupName !== '';
                             return (
                                 !isGroup ?
                                 <ListGroup.Item 
@@ -26,11 +26,15 @@ export default function Conversations() {
                                 </ListGroup.Item>
                                 :
                                 <>
-                                    <ListGroup.Item>
+                                    <ListGroup.Item key={index}>
                                         <Accordion>
                                             <Accordion.Item eventKey={index}>
                                                 <Accordion.Header onClick={() => selectConversationIndex(index) }>
-                                                    Group {index + 1}
+                                                    {
+                                                        conversation && conversation.hasOwnProperty('groupName') ? 
+                                                        conversation.groupName :
+                                                         `Group${index+1}`
+                                                    }
                                                 </Accordion.Header>
                                                 <Accordion.Body>
                                                     <ListGroup variant='flush'>
@@ -53,25 +57,6 @@ export default function Conversations() {
                         )})
                     }
                 </ListGroup>
-                {/* <Accordion>
-                    <Accordion.Item eventKey="0">
-                        <Accordion.Header>Accordion Item #1</Accordion.Header>
-                        <Accordion.Body>
-                            <ListGroup variant='flush'>
-                                {conversations.map((conversation, index) => (
-                                    <ListGroup.Item 
-                                        key={index}
-                                        action
-                                        onClick={() => selectConversationIndex(index) }
-                                        active={conversation.selected}
-                                    >
-                                        { conversation.recipients.map( r => r.name).join(', ') }
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
-                        </Accordion.Body>
-                    </Accordion.Item>
-                </Accordion> */}
             </div>
         </div>
         

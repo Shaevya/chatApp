@@ -7,7 +7,7 @@ import { useUserInfo } from '../contexts/UserInfoProvider';
 import { RandomAvatars } from './RandomAvatars'
 
 export default function UserInfo() {
-    const { id, name, designation, picture } = useUserInfo();
+    const { user } = useUserInfo();
     const [status, setStatus] = useState(true);
 
     return (
@@ -21,15 +21,15 @@ export default function UserInfo() {
             <div id='user-info-wrapper'>
                 <div id='user-info'>
                     <div className='pic rounded-circle'>
-                        <RandomAvatars avatarProps={picture}/>
+                        <RandomAvatars avatarProps={user.picture}/>
                     </div>
                     <div className='pb-0'>
-                        <label>{name}</label>
+                        <label>{user.name}</label>
                         <span className='ms-2'>
                             <FiSettings size='1em'/>
                         </span>
                     </div>
-                    <span className='designation text-muted'>{designation}</span>
+                    <span className='designation text-muted'>{user.designation}</span>
                     <span className='activity' onClick={() => setStatus(!status)}>
                         {
                             status ? 

@@ -28,9 +28,7 @@ export default function ChatDashboad() {
                     <Button className='rounded-0' onClick={() => setModalOpen(true)}>
                         New Conversation
                     </Button>
-                    <Modal show={modalOpen} onHide={closeModal}>
-                        <NewConversationModal closeModal={closeModal}/>
-                    </Modal>
+                    <NewConversationModal modalOpen={modalOpen} closeModal={closeModal}/>
                 </div>
             </div>
         </>

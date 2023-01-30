@@ -44,13 +44,15 @@ export default function Sidebar({ id }) {
                     New {conversationsOpen ? 'Conversation' : 'Contact'}
                 </Button>
             </Tab.Container>
-            <Modal show={modalOpen} onHide={closeModal}>
-                {
-                    conversationsOpen ? 
-                    <NewConversationModal closeModal={closeModal}/> :
+            {
+                conversationsOpen ?
+                <NewConversationModal closeModal={closeModal}/>
+                :
+                <Modal show={modalOpen} onHide={closeModal}>
                     <NewContactsModal closeModal={closeModal}/>
-                }
-            </Modal>
+                </Modal>
+            }
+            
         </div>
     )
 }

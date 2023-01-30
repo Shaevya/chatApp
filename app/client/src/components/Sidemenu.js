@@ -3,8 +3,8 @@ import { Tab, Nav } from 'react-bootstrap'
 import '../styles/dashboard.css'
 import { MdChat, MdContacts } from "react-icons/md";
 import { IconContext } from 'react-icons'
-import Contacts from './Contacts';
 import ChatDashboad from './ChatDashboad';
+import ContactsDashboard from './ContactsDashboard';
 
 
 const CONVERSATIONS_KEY = 'conversations'
@@ -42,7 +42,7 @@ export default function Sidemenu() {
                                 {
                                     activeKey === CONVERSATIONS_KEY ? 
                                     <ChatDashboad /> : 
-                                    <Contacts />
+                                    <ContactsDashboard />
                                 }
                                 {/* <Tab.Content style={{ width: 'inherit', hei }}>
                                     <Tab.Pane eventKey={CONVERSATIONS_KEY}>

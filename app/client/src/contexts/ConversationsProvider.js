@@ -15,27 +15,29 @@ export function ConversationsProvider({ children }) {
     const [conversations, setConversations] = useLocalStorage('conversations', []);
     const [selectedConversationIndex, setSelectedConversationIndex] = useState(0);
     const { contacts } = useContacts();
-    const socket = useSocket();
+    const { socket } = useSocket();
     const { id } = useUserInfo();
 
-    function createConversation(recipients) {
+    function createConversation(recipients, groupName) {
+        if(recipients && recipients.length === 0) return;
         setConversations(prevConversations => {
-            return [...prevConversations, { recipients, messages: [] }]
+            return [...prevConversations, { recipients, messages: [], groupName }]
         }) 
     }
  
     const addMessageToConversation = useCallback(
-        ({recipients, text, sender}) => {
+        ({recipients, picture, text, sender, groupName}) => {
         
         setConversations(prevConversations => { 
             let madeChange = false;
-            const newMessage = { sender, text };
+            const newMessage = { sender, picture, text };
             const newConversations = prevConversations.map
             (conversation => {
                 if(arrayEquality(conversation.recipients, recipients)){
                     madeChange = true;
                     return {
                         ...conversation,
+                        groupName,
                         messages: [...conversation.messages, newMessage]
                     }
                 }
@@ -46,7 +48,7 @@ export function ConversationsProvider({ children }) {
             if(madeChange){
                 return newConversations;
             }else{
-                return [...prevConversations, { recipients, messages: [newMessage]}]
+                return [...prevConversations, { recipients, groupName, messages: [newMessage]}]
             }
 
         });
@@ -61,11 +63,11 @@ export function ConversationsProvider({ children }) {
 
     }, [socket, addMessageToConversation]);
 
-    function sendMessage(recipients, text){
+    function sendMessage(recipients, picture, text, groupName){
 
-        socket.emit('send-message', { recipients, text });
+        socket.emit('send-message', { recipients, picture, text, groupName });
 
-        addMessageToConversation({recipients, text, sender: id })
+        addMessageToConversation({recipients, picture, text, sender: id, groupName })
     }
 
     const formattedConversations = conversations.map((conversation, index) => {

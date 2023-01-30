@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { Form, InputGroup, Button } from 'react-bootstrap';
 import { useConversations } from '../contexts/ConversationsProvider';
-import { FaUserCircle } from "react-icons/fa";
 import { MdSend, MdOutlineEmojiEmotions } from "react-icons/md";
 import { GrAttachment } from "react-icons/gr";
 import data from '@emoji-mart/data'
@@ -28,7 +27,7 @@ export default function OpenConversation() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        sendMessage(selectedConversation.recipients.map( r => r.id), text);
+        sendMessage(selectedConversation.recipients.map( r => r.id), picture, text, selectedConversation.groupName);
         setText('');
     }
 
@@ -62,6 +61,12 @@ export default function OpenConversation() {
         </span>
     );
 
+    const getUserAvatar = (picInfo) =>{
+        return (<span className='mx-2'>
+                    <RandomAvatars height={CHAT_PIC_SIZE} width={CHAT_PIC_SIZE} avatarProps={picInfo} />
+                </span>);
+    }
+
     return (
         <div id='chats-layout-wrapper'>
             <div id='chats-layout'>
@@ -77,13 +82,13 @@ export default function OpenConversation() {
                                 </div>
                                 <div className='d-flex'>
                                     {
-                                        !message.fromMe && userAvatar
+                                        !message.fromMe && getUserAvatar(message.picture)
                                     }
                                     <span className={`rounded px-2 py-1 ${message.fromMe ? 'bg-from-me text-white' : 'bg-from-you border'}`}>
                                         {message.text}
                                     </span>
                                     {
-                                        message.fromMe && userAvatar
+                                        message.fromMe && getUserAvatar(message.picture)
                                     }
                                 </div>
                             </div>
